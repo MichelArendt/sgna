@@ -1,0 +1,114 @@
+﻿@using SharedLibrary.Components.SVGs
+@using SharedLibrary.Core.UserInterface.ActionBar.Dropup
+@using SharedLibrary.Services
+@using SharedLibrary.Models.ActionBar
+@using SharedLibrary.Models.ActionCenter
+@using SharedLibrary.Components.SVGs.Status
+
+@inject UserInterfaceService uiService
+@inject ActionBarService actionBarService
+@inject ActionCenterService actionCenterService
+@inject LocalizationService localization
+@inject DateTimeService dateTimeService
+
+<div class="actionBar_dropup_container @uiService.ActionBar.Dropup.Style">
+    <div class="actionBar_dropup_tabs_container">
+        <div class="actionBar_dropup_tab @uiService.ActionBar.Dropup.Tabs.Tasks.Style" @onclick="(() => uiService.ActionBar.Dropup.SelectTab(uiService.ActionBar.Dropup.Tabs.Tasks))">
+            <div class="actionBar_dropup_tab_svg">
+                <TaskSVG />
+            </div>
+            <div class="actionBar_dropup_tab_text">
+                @localization["Tasks"]
+            </div>
+        </div>
+        <div class="actionBar_dropup_tab @uiService.ActionBar.Dropup.Tabs.Notifications.Style" @onclick="(() => uiService.ActionBar.Dropup.SelectTab(uiService.ActionBar.Dropup.Tabs.Notifications))">
+            <div class="actionBar_dropup_tab_svg">
+                <NotificationSVG />
+            </div>
+            <div class="actionBar_dropup_tab_text">
+                @localization["Notifications"]
+            </div>
+        </div>
+    </div>
+    <div class="actionBar_dropup_tab_content_tasks @uiService.ActionBar.Dropup.Contents.Tasks.Style">
+        @if (actionCenterService.Tasks.CurrentTasks.Any())
+        {
+            foreach (var task in actionCenterService.Tasks.CurrentTasks)
+            {
+                <item>
+                    <status class="status_@task.Value.State.ToString()">
+                        @switch (task.Value.State)
+                        {
+                            case ActionCenterTaskStates.New:
+                                <NewSVG />
+                                break;
+
+                            case ActionCenterTaskStates.Idle:
+                                <IdleSVG />
+                                break;
+
+                            case ActionCenterTaskStates.Running:
+                                <div class="actionBar_loader actionBar_loader_active"></div>
+                                break;
+
+                            case ActionCenterTaskStates.Finished:
+                                <FinishedSVG />
+                                break;
+
+                            case ActionCenterTaskStates.Cancelled:
+                                <CancelledSVG />
+                                break;
+
+                            case ActionCenterTaskStates.Failed:
+                                <FailedSVG />
+                                break;
+
+                            default:
+                                <CompletedSVG />
+                                break;
+
+                        }
+                    </status>
+                    <text>
+                        <description>
+                            <task>@localization[task.Value.DescriptionResourceName]</task>
+                            <time>@dateTimeService.DateTimeWithTimezone(task.Value.Messages.Last().Date)</time>
+                        </description>
+                        <message>
+                            <p>
+                                @localization[task.Value.Messages.Last()]
+                            </p>
+                        </message>
+                    </text>
+                </item>
+            }
+        }
+        else
+        {
+            <p>TODO: No tasks</p>
+        }
+    </div>
+    <div class="actionBar_dropup_tab_content_notifications @uiService.ActionBar.Dropup.Contents.Notifications.Style">
+        @if (actionBarService.Notifications.Any())
+        {
+            foreach (var notification in actionBarService.Notifications)
+            {
+                <item>
+                    @notification.Description
+                </item>
+            }
+        }
+        else
+        {
+            <p>TODO: No notifications</p>
+        }
+    </div>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        uiService.ActionBar.Dropup.RefreshComponentAction += StateHasChanged;
+        actionCenterService.Tasks.TasksChangedAction += StateHasChanged;
+    }
+}

@@ -1,0 +1,49 @@
+﻿@import 'globals.scss';
+
+form {
+    * {
+        background: white;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border-radius: 10px;
+        border: solid 2px map-get($blue, "-4");
+        transition: all ease-out .25s;
+    }
+
+    *:focus {
+        outline: none;
+        border: solid 2px map-get($blue, "4");
+    }
+
+    button {
+        background: map-get($blue, "-3");
+        color: map-get($blue, "8");
+    }
+
+    button:hover {
+        background: map-get($blue, "0");
+        color: white;
+    }
+}
+
+.login_form_container {
+    height: 100%;
+}
+
+.login_form {
+    position: relative;
+    box-sizing: border-box;
+    border: solid 2px map-get($blue, "-4");
+    border-radius: 25px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 20px;
+}
+
+.login_form_or {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}

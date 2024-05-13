@@ -1,0 +1,57 @@
+﻿@import 'globals.scss';
+
+.social_media_login {
+    position: relative;
+    box-sizing: border-box;
+    border: solid 2px map-get($blue, "-4");
+    border-radius: 25px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.social_media_login_label, .login_form_label {
+    font-size: 14px;
+    background: map-get($gray, "-7");
+    z-index: 1;
+    position: absolute;
+    top: -10px;
+    left: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+button.social_button, button.social_button:disabled {
+    box-sizing: content-box;
+    height: map-get($button, "height");
+    width: map-get($button, "width");
+    border-radius: 10px;
+    margin: 10px;
+    padding: 2px;
+    transition: all ease-out .25s;
+}
+
+button.social_button {
+    background: map-get($gray, "8");
+    border: solid 3px map-get($blue, "-4");
+}
+
+button.social_button:hover:enabled {
+    background: white;
+    border: solid 3px map-get($blue, "4");
+}
+
+button.social_button:disabled {
+    background: none;
+    border: solid 3px rgba(0, 0, 0, 0.00);
+    cursor: not-allowed;
+
+    img {
+        -webkit-filter: grayscale(100%);
+        -moz-filter: grayscale(100%);
+        -ms-filter: grayscale(100%);
+        -o-filter: grayscale(100%);
+        filter: gray;
+    }
+}

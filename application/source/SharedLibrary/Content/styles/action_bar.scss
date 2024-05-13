@@ -1,0 +1,211 @@
+﻿@import 'globals.scss';
+
+.actionBar_status {
+    @include display(flex);
+    justify-content: center;
+    padding: 10px;
+    height: map-get($button, "height");
+    width: map-get($button, "width");
+}
+
+.actionBar_message {
+    @include display(flex);
+    width: calc(100% - #{map-get($button, "width")} - #{map-get($button, "width")});
+
+    p {
+        font-size: 12px;
+        padding-left: 5px;
+    }
+}
+
+actionBarDropupButton {
+    z-index: 1000;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 5px;
+    height: map-get($button, "height");
+    width: map-get($button, "width");
+    transition: all ease-out .25s;
+    -webkit-user-select: none; // Disables text selection
+    svg {
+        fill: map-get($gray, "7");
+    }
+}
+
+actionBarDropupButton:hover {
+    background: map-get($gray, "-3");
+
+    svg {
+        fill: white;
+    }
+}
+
+actionBarDropupButton.selected {
+    background: map-get($gray, "-8");
+
+    svg {
+        fill: white;
+    }
+}
+
+actionBarDropupButton.selected:hover {
+    background: map-get($gray, "-1");
+
+    svg {
+        fill: white;
+    }
+}
+
+.actionBar_dropup_container {
+    background: map-get($gray, "-8");
+    border-width: 1px 0 0 1px;
+    border-color: map-get($gray, "-5");
+    border-style: solid;
+    z-index: 1000;
+    position: absolute;
+    right: 0px;
+    bottom: map-get($button, "height");
+    width: 300px;
+    height: calc(100% - #{map-get($button, "height")} - #{map-get($button, "height")});
+    -webkit-user-select: none; // Disables text selection
+}
+
+// Action Bar Dropup Tabs
+.actionBar_dropup_tabs_container {
+    @include display(flex);
+    height: calc(10px + #{map-get($button, "height")});
+    width: 100%;
+}
+
+.actionBar_dropup_tab {
+    background: map-get($gray, "-5");
+    @include display(flex, column);
+    height: 100%;
+    width: 100%;
+    padding: 4px 0 4px 0;
+    transition: all .5s ease;
+
+    * svg {
+        fill: map-get($gray, "2");
+    }
+
+    .actionBar_dropup_tab_text {
+        color: map-get($gray, "2");
+    }
+}
+
+.actionBar_dropup_tab:hover {
+    background: map-get($gray, "-3");
+    @include display(flex, column);
+    height: 100%;
+    width: 100%;
+    padding: 4px 0 4px 0;
+
+    * svg {
+        fill: map-get($gray, "6");
+    }
+
+    .actionBar_dropup_tab_text {
+        color: map-get($gray, "6");
+    }
+}
+
+.actionBar_dropup_tab.selected {
+    background: map-get($gray, "-8");
+    transition: none .5s ease;
+
+    * svg {
+        fill: white;
+    }
+
+    .actionBar_dropup_tab_text {
+        color: white;
+    }
+}
+
+.actionBar_dropup_tab_svg {
+    height: 100vh;
+    width: 100%;
+}
+
+.actionBar_dropup_tab_text {
+    height: 100%;
+    width: 100%;
+    padding: 2px 0 2px 0;
+    font-size: 12px;
+    text-align: center;
+}
+
+// Action Bar Dropup Tab Content
+
+.actionBar_dropup_tab_content_tasks, .actionBar_dropup_tab_content_messages, .actionBar_dropup_tab_content_notifications {
+    padding: 10px 5px 10px 5px;
+    height: calc(100% - 10px - #{map-get($button, "height")});
+    width: 100%;
+
+    item {
+        height: map-get($button, "height");
+        width: 100%;
+        background: green;
+        @include display(flex);
+        margin: 2px 0 2px 0;
+        transition: all .5s ease;
+        background: map-get($gray, "-7");
+
+        status {
+            @include display(flex);
+            flex-shrink: 0;
+            justify-content: center;
+            height: map-get($button, "height");
+            width: map-get($button, "width");
+            padding: 10px;
+        }
+
+        text {
+            @include display(flex, column);
+            //justify-content: center;
+            width: 100%;
+            padding-left: 5px;
+
+            description {
+                @include display(flex);
+                font-size: 10px;
+                padding: 3px 3px 0 0;
+
+                task {
+                    width: 100%;
+                }
+
+                time {
+                    text-align: right;
+                    width: 100%;
+                }
+            }
+
+            message {
+                @include display(flex, column);
+                justify-content: center;
+                height: 100%;
+                font-size: 10px;
+
+                p {
+                }
+            }
+        }
+    }
+
+    item:hover {
+        padding-left: 10px;
+        background: map-get($blue, "-6");
+    }
+}
+
+.actionBar_dropup_tab_content_tasks {
+}
+
+.actionBar_dropup_tab_content_messages {
+}
+
+.actionBar_dropup_tab_content_notifications {
+}

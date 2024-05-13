@@ -1,0 +1,54 @@
+﻿@page "/Chat"
+
+@using Microsoft.AspNetCore.SignalR.Client
+    
+<h2>Chat</h2>
+
+<input type="text" id="message" class="form-control" @bind="@Message" />
+<input type="button" id="sendMessage" value="Send" class="btn btn-primary" @onclick="@SendMessage" />
+<div class="row">
+    <div class="col-6">
+        <ul id="messagesList">
+            @foreach (var message in messages)
+            {
+                <li>@message</li>
+            }
+        </ul>
+    </div>
+</div>
+
+@code {
+    HubConnection connection;
+    string Message = "";
+    IList<string>
+    messages = new List<string>
+        ();
+
+    protected override async Task OnInitializedAsync()
+    {
+        connection = new HubConnectionBuilder().WithUrl("https://localhost:44300/ChatHub").Build();
+        connection.On<string, string>
+            ("broadcastMessage", this.OnBroadcastMessage);
+
+        connection.On<string, string>
+            ("ReceiveMessage", (user, message) =>
+            {
+                var newMessage = $"{user}: {message}";
+                messages.Add(newMessage);
+            });
+        await connection.StartAsync();
+    }
+
+    Task OnBroadcastMessage(string name, string message)
+    {
+        messages.Add(name + " : " + message);
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    async Task SendMessage()
+    {
+        await connection.InvokeAsync("Send", "SGNA Desktop Client", Message);
+        Message = "";
+    }
+}

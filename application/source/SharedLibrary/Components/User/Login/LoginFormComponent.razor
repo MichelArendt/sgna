@@ -1,0 +1,169 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.JSInterop
+@using Blazor.Extensions
+
+@using SharedLibrary.Models.User
+@using SharedLibrary.Models.Form
+@using SharedLibrary.Services
+
+@inject IJSRuntime JSRuntime
+@inject NavigationManager navigationManager
+
+@inject LocalizationService localization
+@inject HubConnectionBuilder hubConnectionBuilder
+
+<div class="login_form flex_basis_minimum">
+    <div class="login_form_label">
+        @localization["Login with credentials"]
+    </div>
+    <EditForm Model="@loginFormModel" OnValidSubmit="@HandleValidSubmit">
+            <InputSelect id="userId" @bind-Value="@FormUser.Id">
+                @*@if (db.Users.Count() == 0)
+                {
+                    <option value="null" selected>-- @localization["No Users Found"] --</option>
+                }
+                else
+                {
+                    @if (db.Users.Count() > 1)
+                    {
+                        <option value="0">-- @localization["Select User"] --</option>
+                    }
+                    else
+                    {
+                        FormUser.Id = db.Users.FirstOrDefault().Id;
+                    }
+
+                    @foreach (UserModel user in db.Users)
+                    {
+                        <option value="@user.Id">@user.Username</option>
+                    }
+                }*@
+            </InputSelect><br />
+
+            <input type="password" id="password" /><br />
+
+            <button type="submit">@localization["Log in"]</button>
+        </EditForm>
+</div>
+
+@code {
+
+    //void ReceivedNewLoginToken()
+    //{
+    //    MessageLog.Add(GetCurrentTime() + " (LoginToken): " + loginSharedAPI.LoginToken);
+    //    StateHasChanged();
+    //}
+
+    //async Task BuildGoogleOpenIdUri()
+    //{
+    //    await loginSharedAPI.BuildAndConnectAsync(hubConnectionBuilder);
+    //    MessageLog.Add(GetCurrentTime() + " - sent: NewLoginTokenAsync");
+    //    await loginSharedAPI.NewLoginTokenAsync();
+    //    MessageLog.Add(GetCurrentTime() + " - sent: GetOpenIdSettingsAsync");
+    //    await loginSharedAPI.GetOpenIdSettingsAsync("Google");
+    //    StateHasChanged();
+    //    // PAREI AQUI, PRECISO CONSTRUIR A URI. JÁ PEGO O TOKEN, FALTA PEGAR OPENID E MONTAR A NOVA URL COM O TOKEN
+    //}
+
+
+    //string Uri = "-";
+    //IList<string> Messages = new List<string>();
+
+    //string Users = "";
+    //UsersSharedAPI usersSharedAPI = new UsersSharedAPI();
+    //LoginSharedAPI loginSharedAPI = new LoginSharedAPI();
+    UserBaseModel FormUser = new UserBaseModel();
+    private LoginFormModel loginFormModel = new LoginFormModel();
+    //DateTime date = new DateTime();
+
+    //OpenIdLogin openIdLogin = new OpenIdLogin();
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    await base.OnInitializedAsync();
+    //}
+
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    if (firstRender)
+    //    {
+    //        loginSharedAPI.ReceivedMessage += ReceiveMessage;
+    //        loginSharedAPI.ReceiveObject += ReceiveObject;
+    //        loginSharedAPI.ReceivedToken += ReceiveNewTokenLogin;
+    //    }
+    //    await base.OnAfterRenderAsync(firstRender);
+    //}
+
+    //public string GetCurrentTime()
+    //{
+    //    return DateTime.Now.AddHours(-3).ToString("HH:mm");
+    //}
+
+    void HandleValidSubmit()
+    {
+        Console.WriteLine("OnValidSubmit");
+    }
+
+    //async Task GetGoogleOpenIdSettings()
+    //{
+    //    Messages.Add("<hr>");
+    //    await loginSharedAPI.BuildAndConnectAsync(JSRuntime);
+    //    string message = "Google";
+    //    Messages.Add(GetCurrentTime() + " - sent: " + message);
+    //    await loginSharedAPI.GetOpenIdSettingsAsync(message);
+    //    StateHasChanged();
+    //}
+
+    //async Task SendMessageAsync()
+    //{
+    //    Messages.Add("<hr>");
+    //    await usersSharedAPI.BuildAndConnectAsync(JSRuntime);
+    //    string message = "Hello API server!";
+    //    Messages.Add(GetCurrentTime() + " - sent: " + message);
+    //    await usersSharedAPI.SendMessageAsync("SendMessageToCallerAsync", message);
+    //    StateHasChanged();
+    //}
+
+    //void GetMessageAsync()
+    //{
+    //    // TENHO QUE ENCRYPTAR O SALT + TOKEN JUNTOS E ENVIAR PRO CLIENT
+    //}
+
+    //void ReceiveMessage()
+    //{
+    //    Messages.Add(GetCurrentTime() + ": ----------------------");
+    //    Messages.Add(GetCurrentTime() + ": " + loginSharedAPI.Message);
+    //    StateHasChanged();
+    //}
+
+    //void ReceiveObject()
+    //{
+    //    Task.Run(() => ReceiveObjectAsync());
+    //}
+
+    //async Task ReceiveObjectAsync()
+    //{
+    //    openIdLogin.PopulateWithOpenIdModel(loginSharedAPI.OpenId);
+
+    //    Messages.Add(GetCurrentTime() + ": ----------------------");
+
+    //    Uri = openIdLogin.BuildUrl();
+    //    Messages.Add(GetCurrentTime() + ": URL - " + Uri);
+
+    //    await loginSharedAPI.RequestNewTokenLoginIdAsync();
+    //    StateHasChanged();
+    //}
+
+
+    //void ReceiveNewTokenLogin()
+    //{
+    //    Messages.Add(GetCurrentTime() + ": ----------------------");
+    //    Messages.Add(GetCurrentTime() + ": LoginToken -" + loginSharedAPI.LoginToken);
+    //    StateHasChanged();
+    //}
+
+    //void GoToUri()
+    //{
+    //    navigationManager.NavigateTo(Uri);
+    //}
+}

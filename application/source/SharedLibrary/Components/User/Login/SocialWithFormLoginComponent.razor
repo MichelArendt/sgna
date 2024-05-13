@@ -1,0 +1,16 @@
+﻿@using SharedLibrary.Services
+
+@inject UserInterfaceService ui
+@inject LocalizationService localization
+
+<div class="display_flex_column login_form_container justify_content_center align_items_center">
+    <SocialMediaLoginComponent />
+    <div class="login_form_or flex_basis_minimum text_align_center">
+        @localization["OR"]
+    </div>
+    <LoginFormComponent />
+</div>
+
+@code {
+
+}

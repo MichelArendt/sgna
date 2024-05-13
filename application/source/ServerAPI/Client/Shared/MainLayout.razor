@@ -1,0 +1,84 @@
+﻿@inherits LayoutComponentBase
+@using Blazor.Extensions @* HubConnectionBuilder *@
+
+@using SharedLibrary.Services
+@using SharedLibrary.Core.API
+@using SharedLibrary.Models.ActionCenter
+@using SharedLibrary.Components.ActionCenter
+@using SharedLibrary.Components.Toolbar
+@using SharedLibrary.Components.SVGs
+
+@inject NavigationManager navigationManager
+@inject HubConnectionBuilder hubConnectionBuilder
+
+@inject HttpClient Http
+@inject UserSettingsService userSettingsService
+
+@inject UserInterfaceService uiService
+@inject LocalizationService localization
+@inject ActionCenterService actionCenterService
+@inject APIService apiService
+
+<nav @onclick="CloseAllMenus" class="">
+    <ToolbarComponent />
+    <ToolbarGeneralIconsComponent ExtraStyle="" />
+</nav>
+
+@*<main @onclick="CloseAllMenus">*@
+<main>
+    @Body
+</main>
+
+<footer @onclick="uiService.CloseAllMenus">
+    <ActionBarComponent />
+</footer>
+
+<actionBarDropupButton class="@uiService.ActionBar.ButtonDropup.Style" @onclick="uiService.ActionBar.ToggleDropup">
+    <ActionBarPopoutSVG />
+</actionBarDropupButton>
+
+<ActionBarDropupComponent />
+
+@code {
+    ActionCenterTaskModel? connectingToAPITask;
+
+    protected override void OnInitialized()
+    {
+        connectingToAPITask = actionCenterService.Tasks.AddTask("Verifying connections");
+        apiService.ConnectedToAPIAction += OnConnectedToAPI;
+        apiService.ConnectedToDatabaseAction += OnConnectedToDatabase;
+
+        // DEBUG
+        uiService.ActionBar.ToggleDropup();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            connectingToAPITask?.AddMessage("Waiting for server reply").ChangeState(ActionCenterTaskStates.Running);
+
+            //// Conecta com a API
+            apiService.ConnectToAPIAsync();
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    void OnConnectedToAPI()
+    {
+        connectingToAPITask?.AddMessage("Connection with server established");
+    }
+
+    void OnConnectedToDatabase()
+    {
+        connectingToAPITask?.AddMessage("Connection with database established").ChangeState(ActionCenterTaskStates.Completed);
+    }
+
+    /// <summary>
+    /// Fecha todos os menus
+    /// </summary>
+    void CloseAllMenus()
+    {
+        uiService.CloseAllMenus();
+    }
+}

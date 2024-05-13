@@ -1,0 +1,17 @@
+﻿@inherits LayoutComponentBase
+
+@inject IJSRuntime JsRuntime;
+@inject DesktopWindowService windowManager
+
+<nav class="drag_enable">
+    <ToolbarComponent />
+    <ToolbarGeneralIconsComponent ExtraStyle="drag_disable" />
+    <ToolbarDesktopWindowIconsComponent ExtraStyle="drag_disable" />
+</nav>
+
+<main>
+    @Body
+</main>
+
+@code {
+}

@@ -1,0 +1,72 @@
+﻿@using Blazor.Extensions @* HubConnectionBuilder *@
+
+@using SharedLibrary.Core.API
+@using SharedLibrary.Core.User.Login.OpenId
+@using SharedLibrary.Models.User.Login.OpenId
+@using SharedLibrary.Models.ActionCenter
+@using SharedLibrary.Services
+
+@inject NavigationManager navigationManager
+@inject HubConnectionBuilder hubConnectionBuilder
+
+@inject LocalizationService localization
+@inject ActionCenterService actionCenterService
+@inject APIService apiService
+
+    <div class="social_media_login flex_basis_minimum display_flex_row justify_content_center">
+        <div class="social_media_login_label">
+            @localization["Login with"]
+        </div>
+        <button disabled="@openIdCore.Facebook.IsDisabled" class="social_button display_flex_row justify_content_center align_items_center">
+            <img src="images/social/brands/facebook_27x27.png" width="27" height="27" />
+        </button>
+        <button disabled="@openIdCore.Google.IsDisabled" class="social_button display_flex_row justify_content_center align_items_center" @onclick="@(() => LoginWithOpenId(openIdCore.Google))">
+            <img src="images/social/brands/google_27x27.png" width="27" height="27" />
+        </button>
+        <button disabled="@openIdCore.Twitter.IsDisabled" class="social_button display_flex_row justify_content_center align_items_center">
+            <img src="images/social/brands/twitter_27x27.png" width="27" height="27" />
+        </button>
+        <button disabled="@openIdCore.Microsoft.IsDisabled" class="social_button display_flex_row justify_content_center align_items_center">
+            <img src="images/social/brands/microsoft_27x27.png" width="27" height="27" />
+        </button>
+    </div>
+
+@code {
+    ActionCenterTaskModel? configuringLoginTask;
+
+    protected override void OnInitialized()
+    {
+        openIdCore.RefreshComponentAction += StateHasChanged;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+
+        if (firstRender)
+        {
+            configuringLoginTask = actionCenterService.Tasks.AddTask("Initializing login").AddMessage("Acquiring social settings").ChangeState(ActionCenterTaskStates.Running);
+            openIdUrisModel = await apiService.GetOpenIdUrisAsync();
+            configuringLoginTask?.AddMessage("Applying social settings");
+            openIdCore.LoadUris(openIdUrisModel);
+            configuringLoginTask?.AddMessage("Social settings applied").ChangeState(ActionCenterTaskStates.Completed);
+
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    OpenIdUrisModel? openIdUrisModel;
+    OpenIdLoginUserCore openIdCore = new OpenIdLoginUserCore();
+
+    void LoginWithOpenId(ProviderOpenIdModel provider)
+    {
+        if (!String.IsNullOrEmpty(provider.Uri))
+        {
+            navigationManager.NavigateTo(provider.Uri);
+        }
+        else
+        {
+            // TODO: Provedor inválido
+            throw new NotImplementedException();
+        }
+    }
+}

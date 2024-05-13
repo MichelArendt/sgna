@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ElectronNET.API" Version="5.30.1" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SharedLibrary\SharedLibrary.csproj" />
+    <ProjectReference Include="..\Shared\ServerAPI.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\SharedLibrary\Content\styles\font\**\*.*">
+      <Link>wwwroot\styles\font\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\SharedLibrary\Content\images\system\*.*">
+      <Link>wwwroot\images\system\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\SharedLibrary\Content\images\social\brands\*.*">
+      <Link>wwwroot\images\social\brands\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Compile Remove="bin\**" />
+    <Content Remove="bin\**" />
+    <EmbeddedResource Remove="bin\**" />
+    <None Remove="bin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="..\..\SharedLibrary\Content\images\social\brands\facebook_37x37.png" />
+    <Content Remove="..\..\SharedLibrary\Content\images\social\brands\google_37x37.png" />
+    <Content Remove="..\..\SharedLibrary\Content\images\social\brands\microsoft_37x37.png" />
+    <Content Remove="..\..\SharedLibrary\Content\images\social\brands\twitter_37x37.png" />
+    <Content Remove="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+    <Folder Include="wwwroot\images\system\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Languages\en-US.resx">
+      <Generator>ResXFileCodeGenerator </Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <Target Name="CopyLinkedContentFiles" BeforeTargets="Build">
+    <Copy SourceFiles="%(Content.Identity)" DestinationFiles="%(Content.Link)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Condition="'%(Content.Link)' != ''" />
+  </Target>
+
+</Project>

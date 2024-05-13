@@ -1,0 +1,33 @@
+﻿@import 'globals.scss';
+
+.actionBar_loader {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    transition: all ease 0.1s;
+}
+
+.actionBar_loader_disabled {
+    border: 3px solid map-get($gray, "-8");
+    animation-play-state: paused;
+}
+
+.actionBar_loader_active {
+    border: 3px solid map-get($gray, "-8");
+    border-top: 3px solid map-get($blue, "2");
+    animation: actionBar_loader 1s linear infinite;
+}
+
+@keyframes actionBar_loader {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,30 @@
+﻿@using SharedLibrary.Services
+@using ServerAPI.DesktopClient.Components.SVGs
+
+@inject DesktopWindowService windowManager
+@inject LocalizationService localization
+
+<div class="toolbar_right @ExtraStyle">
+    <div class="toolbar_button">
+        <MinimizeSVG />
+    </div>
+    <div class="toolbar_button">
+        <FullscreenSVG />
+    </div>
+    <div class="toolbar_button">
+        <MaximizeSVG />
+    </div>
+    <div title="@localization["Close Window", true]" class="toolbar_button" @onclick="@CloseDesktopWindow">
+        <CloseSVG />
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string ExtraStyle { get; set; } = "";
+
+    public void CloseDesktopWindow()
+    {
+        windowManager.CloseDesktopWindow();
+    }
+}

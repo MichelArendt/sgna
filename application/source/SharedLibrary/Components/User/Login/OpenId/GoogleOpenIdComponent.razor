@@ -1,0 +1,56 @@
+﻿@using System.Text
+@using Newtonsoft.Json
+@using Blazor.Extensions
+
+@using SharedLibrary.Services
+@using SharedLibrary.Core.API
+@using SharedLibrary.Core.User.Login.OpenId
+@using SharedLibrary.Models.User.Login.OpenId.Token
+
+@inject NavigationManager navigationManager
+@inject HubConnectionBuilder hubConnectionBuilder
+
+@inject ActionCenterService actionCenterService
+@inject SessionService session
+@inject APIService apiService
+
+<div>
+    Google
+</div>
+
+LoginToken: @openIdLoginUserCore.test1
+<br />
+<br />
+
+Code: @openIdLoginUserCore.test2
+<br />
+<br />
+
+@code {
+    OpenIdLoginUserCore openIdLoginUserCore = new OpenIdLoginUserCore();
+
+    protected override void OnInitialized()
+    {
+        actionCenterService.Tasks.AddTask("Login").AddMessage("Logging with {0}", new string[] { "Google" });
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            AuthenticationTokenOpenIdModel? openIdAuthenticationTokenModel = openIdLoginUserCore.GetStateAndCodeFromUri(navigationManager.ToAbsoluteUri(navigationManager.Uri));
+
+            if (openIdAuthenticationTokenModel != null)
+            {
+                await apiService.LoginUserWithOpenIdAsync(openIdAuthenticationTokenModel);
+                //StateHasChanged();
+            }
+            else
+            {
+                throw new NotImplementedException(); // TODO
+            }
+            // string? token = await LoginSharedAPI.IsLoginTokenValid(UserLoginCore.LoginToken);
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

@@ -1,0 +1,65 @@
+﻿@import 'reset.scss'; // Resets all elements
+
+@import 'globals.scss';
+@import 'mixins.scss';
+
+@import 'forms.scss';
+@import 'buttons.scss';
+@import 'social.scss';
+@import 'action_center.scss';
+@import 'action_bar.scss';
+@import 'animations.scss';
+
+a, a:visited {
+    color: map-get($blue, "-1");
+    text-decoration: none;
+}
+
+a:hover {
+    color: map-get($blue, "4");
+}
+
+* {
+    font-family: "Roboto";
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100vh;
+}
+
+html, body, nav, footer, main {
+    width: 100vw;
+}
+
+html,
+body {
+    background: map-get($gray, "-7");
+    color: #F1F1F1;
+}
+
+app {
+}
+
+nav, footer {
+    height: map-get($button, "height");
+    width: 100vw;
+}
+
+.toolbar_left {
+    z-index: 1;
+    @include display(flex);
+    position: absolute;
+}
+
+main {
+    height: calc(100vh - #{map-get($button, "height")} - #{map-get($button, "height")});
+}
+
+footer {
+    @include display(flex);
+    background: map-get($gray, "-6");
+    box-sizing: border-box;
+}

@@ -1,0 +1,25 @@
+﻿@using SharedLibrary.Components.SVGs
+@using SharedLibrary.Services
+
+@inject UserInterfaceService ui
+@inject ActionCenterService actionCenter
+
+<div class="actionBar_status">
+    <div class="actionBar_loader @Class align_self_center"></div>
+</div>
+<div class="actionBar_message">
+    @*@if (actionCenter.MessagesList.Any())
+    {
+        <p class="align_self_center">@actionCenter.MessagesList.Last()</p>
+    }*@
+</div>
+
+
+@code {
+    protected override void OnInitialized()
+    {
+
+    }
+
+    string Class = "actionBar_loader_disabled";
+}

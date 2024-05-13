@@ -1,0 +1,19 @@
+﻿@import '../../../../SharedLibrary/Content/styles/shared.scss';
+
+.drag_enable {
+    z-index: 0;
+    -webkit-app-region: drag; // Enables Electron dragging
+    -webkit-user-select: none; // Disabled text selection
+}
+
+.drag_disable {
+    -webkit-app-region: no-drag; // Disables Electron dragging
+    z-index: 1;
+}
+
+.toolbar_right {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    right: 0px;
+}

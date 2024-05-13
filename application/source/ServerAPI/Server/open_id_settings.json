@@ -1,0 +1,10 @@
+{
+  "OpenId": {
+    "Google": {
+      "Endpoint": "https://accounts.google.com/o/oauth2/v2/auth?",
+      "ClientId": "80199758744-ji3q1f1uk19c34ajp9vfibkua7svfe28.apps.googleusercontent.com",
+      "RedirectUri": "https://localhost:44300/User/OpenId/Google",
+      "Scopes": [ "openid", "email", "profile" ]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+﻿@mixin display($display, $direction: row) {
+    display: $display;
+
+    @if($display == flex) {
+        flex-direction: $direction;
+    }
+}
+
+@mixin align_self($alignment: center) {
+    align-self: $alignment;
+}

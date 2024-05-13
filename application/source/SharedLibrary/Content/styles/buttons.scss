@@ -1,0 +1,85 @@
+﻿@import 'globals.scss';
+
+@mixin button($color, $gradient, $borderGradient: "none") {
+    box-sizing: border-box;
+    font-size: 16px;
+    width: 100%;
+    @include display(flex);
+    align-items: center;
+    flex-grow: 1;
+    color: map-get($color, "2");
+    background: map-get($color, #{$gradient});
+    border: solid 1px map-get($color, #{$gradient + 1});
+    transition: all ease-out .25s;
+    -webkit-user-select: none; // Disables text selection
+}
+
+@mixin button_hover($color, $gradient, $borderGradient: "none") {
+    color: white;
+    background: map-get($color, #{$gradient + 1});
+    border: solid 1px map-get($color, #{$gradient - 2});
+}
+
+@mixin button_active($color, $gradient, $borderGradient: "none") {
+    color: map-get($color, "2");
+    background: map-get($color, #{$gradient});
+    border: solid 1px map-get($color, #{$gradient + 1});
+    transition: none;
+}
+
+.button_blue {
+    @include button($blue, -2);
+}
+
+.button_blue:hover {
+    @include button_hover($blue, -2);
+}
+
+.button_blue:active {
+    @include button_active($yellow, -2);
+}
+
+.button_blue:disabled {
+    border: solid 1px map-get($gray, "-4");
+    color: map-get($gray, "4");
+    background: map-get($gray, "-2");
+    cursor: not-allowed;
+}
+
+.button_darkblue {
+    @include button($blue, -3);
+}
+
+.button_darkblue:hover {
+    @include button_hover($blue, -3);
+}
+
+.button_darkblue:active {
+    @include button_active($yellow, -2);
+}
+
+.button_darkblue:disabled {
+    border: solid 1px map-get($gray, "-4");
+    color: map-get($gray, "4");
+    background: map-get($gray, "-2");
+    cursor: not-allowed;
+}
+
+.toolbar_logo {
+    height: map-get($button, "height");
+    width: 64px;
+}
+
+.toolbar_button {
+    height: map-get($button, "height");
+    width: 40px;
+    transition: all ease-out .25s;
+
+    svg {
+        fill: map-get($gray, "3");
+    }
+}
+
+.toolbar_button:hover {
+    background: map-get($gray, "1");
+}
